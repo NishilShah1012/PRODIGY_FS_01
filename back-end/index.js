@@ -18,6 +18,10 @@ app.use(cors());
 app.use('/auth', AuthRouter);
 app.use('/products', ProductRouter);
 
-app.listen(PORT, () => {
-    console.log(`Server is running on ${PORT}`);
-})
+app.listen(PORT, (err) => {
+    if (err) {
+        console.error('Error starting server:', err);
+        return;
+    }
+    console.log(`Server is running on port ${PORT}`);
+});

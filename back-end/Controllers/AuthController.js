@@ -32,12 +32,22 @@ const signup = async (req, res) => {
 const login = async (req, res) => {
     try{
         const { email, password } = req.body;
+        
+        if (!email || !password) {
+            return res.status(400).json({ 
+                message: "Email and password are required", 
+                success: false 
+            });
+        }
+
         const user = await UserModel.findOne({ email }); 
         const errorMsg = "Auth failed email or password is wrong";
+        
         if(!user){
             return res.status(403)
                 .json({ message: errorMsg, success: false });
         }
+        
         const isPassEqual = await bcrypt.compare(password, user.password);
         if(!isPassEqual){
             return res.status(403)
@@ -58,11 +68,13 @@ const login = async (req, res) => {
                 email,
                 name: user.name
             })
-    }catch (err) {
+    } catch (err) {
+        console.error('Login error:', err);
         res.status(500)
             .json({
                 message: "Internal server error", 
-                success: false
+                success: false,
+                error: err.message
             })
     }
 }

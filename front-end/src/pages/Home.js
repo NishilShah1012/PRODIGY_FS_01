@@ -22,7 +22,7 @@ function Home() {
 
   const fetchProducts = async () => {
     try {
-      const url = "http://localhost:8080/products";
+      const url = "http://localhost:8000/products";
       const headers = {
         headers: {
           'Authorization': localStorage.getItem('token')
